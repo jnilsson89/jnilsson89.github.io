@@ -1,0 +1,437 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Johan Nilsson — .NET Developer</title>
+  <meta name="description" content="Johan Nilsson is a .NET developer specialising in .NET MAUI, ASP.NET Core, and Blazor. Creator of ForeWind — Golf Shot Calculator." />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet" />
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    /* ── Tokens: dark (default) ──────────────────────────────── */
+    :root {
+      --bg-base:    #0f1117;
+      --grad-a:     rgba(79, 142, 247, 0.14);
+      --grad-b:     rgba(124, 106, 247, 0.11);
+      --surface:    #1a1d27;
+      --border:     #2a2d3a;
+      --accent:     #4f8ef7;
+      --text:       #e8eaf0;
+      --muted:      #8b909e;
+      --tag-bg:     #1e2236;
+      --card-text:  #b0b6c4;
+      --icon-g-bg:  #0d2b1e; --icon-g-fg: #34d399;
+      --icon-p-bg:  #1e1630; --icon-p-fg: #a78bfa;
+      --badge-l-bg: #0d2b1e; --badge-l-fg: #34d399;
+      --badge-w-bg: #1e1630; --badge-w-fg: #a78bfa;
+      --radius: 12px;
+    }
+
+    /* ── Tokens: light ───────────────────────────────────────── */
+    [data-theme="light"] {
+      --bg-base:    #f5f7ff;
+      --grad-a:     rgba(79, 142, 247, 0.18);
+      --grad-b:     rgba(124, 106, 247, 0.14);
+      --surface:    #ffffff;
+      --border:     #dde1f0;
+      --accent:     #3b6fd4;
+      --text:       #1a1d27;
+      --muted:      #6b7280;
+      --tag-bg:     #edf0fc;
+      --card-text:  #4a5168;
+      --icon-g-bg:  #d1fae5; --icon-g-fg: #059669;
+      --icon-p-bg:  #ede9fe; --icon-p-fg: #7c3aed;
+      --badge-l-bg: #d1fae5; --badge-l-fg: #059669;
+      --badge-w-bg: #ede9fe; --badge-w-fg: #7c3aed;
+    }
+
+    /* ── Base ────────────────────────────────────────────────── */
+    html { scroll-behavior: smooth; }
+
+    body {
+      font-family: 'Inter', system-ui, sans-serif;
+      background:
+        radial-gradient(ellipse at 18% 0%,   var(--grad-a) 0%, transparent 52%),
+        radial-gradient(ellipse at 82% 100%, var(--grad-b) 0%, transparent 52%),
+        var(--bg-base);
+      background-attachment: fixed;
+      color: var(--text);
+      line-height: 1.7;
+      min-height: 100vh;
+      -webkit-font-smoothing: antialiased;
+      transition: background-color 0.3s, color 0.25s;
+    }
+
+    /* ── Theme toggle ────────────────────────────────────────── */
+    .theme-toggle {
+      position: fixed;
+      top: 20px;
+      right: 24px;
+      z-index: 100;
+      width: 40px;
+      height: 40px;
+      border-radius: 50%;
+      border: 1px solid var(--border);
+      background: var(--surface);
+      color: var(--muted);
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: border-color 0.15s, color 0.15s, background 0.25s;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.15);
+    }
+    .theme-toggle:hover { border-color: var(--accent); color: var(--accent); }
+    .theme-toggle svg { width: 18px; height: 18px; stroke: currentColor; fill: none;
+      stroke-width: 2; stroke-linecap: round; stroke-linejoin: round; }
+
+    /* ── Layout ─────────────────────────────────────────────── */
+    .page {
+      max-width: 760px;
+      margin: 0 auto;
+      padding: 64px 24px 96px;
+    }
+
+    /* ── Hero ────────────────────────────────────────────────── */
+    .hero {
+      display: flex;
+      align-items: center;
+      gap: 32px;
+      margin-bottom: 56px;
+    }
+
+    .hero-avatar {
+      flex-shrink: 0;
+      width: 88px;
+      height: 88px;
+      border-radius: 50%;
+      object-fit: cover;
+      border: 2px solid var(--border);
+      transition: border-color 0.25s;
+    }
+
+    .hero-text h1 {
+      font-size: 2rem;
+      font-weight: 700;
+      letter-spacing: -0.5px;
+      line-height: 1.2;
+      margin-bottom: 6px;
+    }
+
+    .hero-text .role {
+      font-size: 1rem;
+      color: var(--muted);
+      font-weight: 500;
+    }
+
+    .hero-text .role span { color: var(--accent); }
+
+    /* ── Section ─────────────────────────────────────────────── */
+    section { margin-bottom: 52px; }
+
+    h2 {
+      font-size: 0.72rem;
+      font-weight: 600;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: var(--muted);
+      margin-bottom: 20px;
+    }
+
+    p { font-size: 1rem; color: var(--text); margin-bottom: 16px; }
+    p:last-child { margin-bottom: 0; }
+
+    /* ── Skill tags ──────────────────────────────────────────── */
+    .tags { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 4px; }
+
+    .tag {
+      background: var(--tag-bg);
+      border: 1px solid var(--border);
+      color: var(--text);
+      font-size: 0.85rem;
+      font-weight: 500;
+      padding: 5px 14px;
+      border-radius: 999px;
+      transition: background 0.25s, border-color 0.25s, color 0.25s;
+    }
+
+    /* ── Card ────────────────────────────────────────────────── */
+    .card {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 28px 32px;
+      margin-bottom: 16px;
+      transition: background 0.25s, border-color 0.25s;
+    }
+
+    .card-header { display: flex; align-items: center; gap: 14px; margin-bottom: 16px; }
+
+    .card-icon {
+      width: 42px; height: 42px;
+      border-radius: 10px;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 1.2rem;
+      flex-shrink: 0;
+      overflow: hidden;
+      transition: background 0.25s, color 0.25s;
+    }
+    .card-icon img { width: 100%; height: 100%; object-fit: cover; }
+    .card-icon.green  { background: var(--icon-g-bg); color: var(--icon-g-fg); }
+    .card-icon.purple { background: var(--icon-p-bg); color: var(--icon-p-fg); }
+
+    .card-title { font-size: 1.05rem; font-weight: 600; line-height: 1.3; }
+
+    .card-subtitle { font-size: 0.85rem; color: var(--muted); margin-top: 2px; }
+
+    .card p { font-size: 0.95rem; color: var(--card-text); }
+
+    .card .tags { margin-top: 18px; }
+
+    /* ── Status badge ────────────────────────────────────────── */
+    .badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      font-size: 0.75rem;
+      font-weight: 600;
+      letter-spacing: 0.04em;
+      padding: 3px 10px;
+      border-radius: 999px;
+      margin-top: 6px;
+      transition: background 0.25s, color 0.25s;
+    }
+    .badge.live { background: var(--badge-l-bg); color: var(--badge-l-fg); }
+    .badge.wip  { background: var(--badge-w-bg); color: var(--badge-w-fg); }
+    .badge .dot { width: 6px; height: 6px; border-radius: 50%; background: currentColor; }
+
+    /* ── Buttons ─────────────────────────────────────────────── */
+    .link-row { display: flex; gap: 12px; flex-wrap: wrap; margin-top: 16px; }
+
+    a.btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 7px;
+      background: transparent;
+      border: 1px solid var(--border);
+      color: var(--text);
+      font-size: 0.85rem;
+      font-weight: 500;
+      padding: 7px 16px;
+      border-radius: 8px;
+      text-decoration: none;
+      transition: border-color 0.15s, color 0.15s;
+    }
+    a.btn:hover { border-color: var(--accent); color: var(--accent); }
+    a.btn svg {
+      width: 14px; height: 14px;
+      fill: none; stroke: currentColor;
+      stroke-width: 2; stroke-linecap: round; stroke-linejoin: round;
+    }
+
+    /* ── Divider ─────────────────────────────────────────────── */
+    hr {
+      border: none;
+      border-top: 1px solid var(--border);
+      margin: 48px 0;
+      transition: border-color 0.25s;
+    }
+
+    /* ── Footer ──────────────────────────────────────────────── */
+    footer {
+      text-align: center;
+      font-size: 0.82rem;
+      color: var(--muted);
+      padding-top: 24px;
+      border-top: 1px solid var(--border);
+      transition: border-color 0.25s;
+    }
+    footer a { color: var(--accent); text-decoration: none; }
+
+    /* ── Responsive ──────────────────────────────────────────── */
+    @media (max-width: 540px) {
+      .hero { flex-direction: column; align-items: flex-start; gap: 20px; }
+      .hero-text h1 { font-size: 1.6rem; }
+      .card { padding: 22px 20px; }
+      .theme-toggle { top: 16px; right: 16px; }
+    }
+  </style>
+</head>
+<body>
+
+<!-- Theme toggle -->
+<button class="theme-toggle" id="themeToggle" aria-label="Toggle light/dark mode">
+  <!-- icon injected by JS -->
+</button>
+
+<div class="page">
+
+  <!-- Hero -->
+  <header class="hero">
+    <img class="hero-avatar" src="assets/images/johan.jpg" alt="Johan Nilsson" />
+    <div class="hero-text">
+      <h1>Johan Nilsson</h1>
+      <p class="role">.NET Developer &mdash; <span>Mobile &amp; Web</span></p>
+    </div>
+  </header>
+
+  <!-- About -->
+  <section>
+    <h2>About</h2>
+    <p>
+      I'm a .NET developer with 4+ years of experience building software that ships.
+      My focus sits at the intersection of mobile, backend, and web &mdash; writing code
+      that is clean, purposeful, and maintainable over the long run.
+    </p>
+    <p>
+      I'm drawn to problems that require both technical depth and real-world usability.
+      Whether it's a production app on Google Play or a backend API powering a web client,
+      I care about the craft at every layer of the stack.
+    </p>
+  </section>
+
+  <!-- Skills -->
+  <section>
+    <h2>Core Skills</h2>
+    <div class="tags">
+      <span class="tag">.NET MAUI</span>
+      <span class="tag">ASP.NET Core</span>
+      <span class="tag">Entity Framework Core</span>
+      <span class="tag">Blazor</span>
+      <span class="tag">C#</span>
+      <span class="tag">REST APIs</span>
+      <span class="tag">SQL</span>
+      <span class="tag">Unity</span>
+    </div>
+  </section>
+
+  <hr />
+
+  <!-- Projects -->
+  <section>
+    <h2>Projects</h2>
+
+    <!-- ForeWind -->
+    <div class="card">
+      <div class="card-header">
+        <div class="card-icon"><img src="assets/images/appicon.png" alt="ForeWind" /></div>
+        <div>
+          <div class="card-title">ForeWind &mdash; Golf Shot Calculator</div>
+          <div class="card-subtitle">Production app &middot; Android</div>
+        </div>
+      </div>
+      <p>
+        ForeWind calculates exactly how wind affects a golf shot by combining real-time
+        weather data with the device's compass and GPS. Enter your target distance, point
+        your phone at the flag, and the app tells you how much to adjust &mdash; no mental
+        maths required on the course.
+      </p>
+      <p>
+        Built end-to-end in .NET MAUI, ForeWind is my most complete shipped product to date.
+        Taking it from first commit to the Play Store reinforced every part of the mobile
+        development lifecycle: sensor integration, weather API consumption, offline handling,
+        store compliance, and iterating on real user feedback.
+      </p>
+      <div class="badge live"><span class="dot"></span>Live on Google Play</div>
+      <div class="link-row">
+        <a class="btn" href="https://forewind.app/" target="_blank" rel="noopener">
+          <svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><line x1="2" y1="12" x2="22" y2="12"/><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/></svg>
+          forewind.app
+        </a>
+        <a class="btn" href="https://play.google.com/store/apps/details?id=com.jnsoftware.forewind" target="_blank" rel="noopener">
+          <svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><polygon points="10 8 16 12 10 16 10 8"/></svg>
+          Google Play
+        </a>
+      </div>
+      <div class="tags">
+        <span class="tag">.NET MAUI</span>
+        <span class="tag">C#</span>
+        <span class="tag">Geolocation</span>
+        <span class="tag">Weather API</span>
+        <span class="tag">Android</span>
+      </div>
+    </div>
+
+    <!-- Unity Game -->
+    <div class="card">
+      <div class="card-header">
+        <div class="card-icon purple">&#9654;</div>
+        <div>
+          <div class="card-title">Untitled Mobile Game</div>
+          <div class="card-subtitle">In development &middot; Android &amp; iOS</div>
+        </div>
+      </div>
+      <p>
+        My next project is a mobile game built in Unity &mdash; my first step into game development.
+        It's early, it's iterative, and it's deliberately outside my comfort zone.
+        Shipping ForeWind proved I can take a product to market; this project is about expanding
+        what kind of products I can build.
+      </p>
+      <div class="badge wip"><span class="dot"></span>In development</div>
+      <div class="tags">
+        <span class="tag">Unity</span>
+        <span class="tag">C#</span>
+        <span class="tag">Android</span>
+        <span class="tag">iOS</span>
+      </div>
+    </div>
+  </section>
+
+  <hr />
+
+  <!-- Approach -->
+  <section>
+    <h2>How I Work</h2>
+    <p>
+      I prefer smaller, focused iterations over big-bang releases. I lean into the
+      .NET ecosystem because it lets me move quickly across mobile, API, and web
+      without context-switching between languages.
+    </p>
+    <p>
+      Right now I'm building experience at both ends of the stack &mdash; deepening
+      my mobile expertise while pushing into new territory with Unity. The goal is
+      to be the kind of developer who can own a product from idea to store listing.
+    </p>
+  </section>
+
+  <!-- Footer -->
+  <footer>
+    <p>
+      Johan Nilsson &mdash; .NET Developer
+      &ensp;&middot;&ensp;
+      <a href="https://forewind.app/" target="_blank" rel="noopener">forewind.app</a>
+    </p>
+  </footer>
+
+</div>
+
+<script>
+  const html = document.documentElement;
+  const btn  = document.getElementById('themeToggle');
+  const KEY  = 'jn-theme';
+
+  const SUN = `<svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="5"/><line x1="12" y1="1" x2="12" y2="3"/><line x1="12" y1="21" x2="12" y2="23"/><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/><line x1="1" y1="12" x2="3" y2="12"/><line x1="21" y1="12" x2="23" y2="12"/><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/></svg>`;
+  const MOON = `<svg viewBox="0 0 24 24"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg>`;
+
+  function apply(theme) {
+    html.setAttribute('data-theme', theme);
+    // show the icon for the mode you can switch TO
+    btn.innerHTML = theme === 'dark' ? SUN : MOON;
+    btn.setAttribute('aria-label', theme === 'dark' ? 'Switch to light mode' : 'Switch to dark mode');
+  }
+
+  const saved = localStorage.getItem(KEY);
+  let current = saved ?? 'light';
+  apply(current);
+
+  btn.addEventListener('click', () => {
+    current = current === 'dark' ? 'light' : 'dark';
+    apply(current);
+    localStorage.setItem(KEY, current);
+  });
+</script>
+</body>
+</html>
