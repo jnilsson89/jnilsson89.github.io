@@ -1,0 +1,252 @@
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+/* ── Tokens: dark (default) ──────────────────────────────── */
+:root {
+  --bg-base:    #0f1117;
+  --grad-a:     rgba(79, 142, 247, 0.14);
+  --grad-b:     rgba(124, 106, 247, 0.11);
+  --surface:    #1a1d27;
+  --border:     #2a2d3a;
+  --accent:     #4f8ef7;
+  --text:       #e8eaf0;
+  --muted:      #8b909e;
+  --tag-bg:     #1e2236;
+  --card-text:  #b0b6c4;
+  --icon-g-bg:  #0d2b1e; --icon-g-fg: #34d399;
+  --icon-p-bg:  #1e1630; --icon-p-fg: #a78bfa;
+  --badge-l-bg: #0d2b1e; --badge-l-fg: #34d399;
+  --badge-w-bg: #1e1630; --badge-w-fg: #a78bfa;
+  --radius: 12px;
+}
+
+/* ── Tokens: light ───────────────────────────────────────── */
+[data-theme="light"] {
+  --bg-base:    #f5f7ff;
+  --grad-a:     rgba(79, 142, 247, 0.18);
+  --grad-b:     rgba(124, 106, 247, 0.14);
+  --surface:    #ffffff;
+  --border:     #dde1f0;
+  --accent:     #3b6fd4;
+  --text:       #1a1d27;
+  --muted:      #6b7280;
+  --tag-bg:     #edf0fc;
+  --card-text:  #4a5168;
+  --icon-g-bg:  #d1fae5; --icon-g-fg: #059669;
+  --icon-p-bg:  #ede9fe; --icon-p-fg: #7c3aed;
+  --badge-l-bg: #d1fae5; --badge-l-fg: #059669;
+  --badge-w-bg: #ede9fe; --badge-w-fg: #7c3aed;
+}
+
+/* ── Base ────────────────────────────────────────────────── */
+html { scroll-behavior: smooth; }
+
+body {
+  font-family: 'Inter', system-ui, sans-serif;
+  background:
+    radial-gradient(ellipse at 18% 0%,   var(--grad-a) 0%, transparent 52%),
+    radial-gradient(ellipse at 82% 100%, var(--grad-b) 0%, transparent 52%),
+    var(--bg-base);
+  background-attachment: fixed;
+  color: var(--text);
+  line-height: 1.7;
+  min-height: 100vh;
+  -webkit-font-smoothing: antialiased;
+  transition: background-color 0.3s, color 0.25s;
+}
+
+/* ── Theme toggle ────────────────────────────────────────── */
+.theme-toggle {
+  position: fixed;
+  top: 20px;
+  right: 24px;
+  z-index: 100;
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  border: 1px solid var(--border);
+  background: var(--surface);
+  color: var(--muted);
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: border-color 0.15s, color 0.15s, background 0.25s;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
+}
+.theme-toggle:hover { border-color: var(--accent); color: var(--accent); }
+.theme-toggle svg {
+  width: 18px; height: 18px;
+  stroke: currentColor; fill: none;
+  stroke-width: 2; stroke-linecap: round; stroke-linejoin: round;
+}
+
+/* ── Layout ──────────────────────────────────────────────── */
+.page {
+  max-width: 760px;
+  margin: 0 auto;
+  padding: 64px 24px 96px;
+}
+
+/* ── Hero ────────────────────────────────────────────────── */
+.hero {
+  display: flex;
+  align-items: center;
+  gap: 32px;
+  margin-bottom: 56px;
+}
+
+.hero-avatar {
+  flex-shrink: 0;
+  width: 88px;
+  height: 88px;
+  border-radius: 50%;
+  object-fit: cover;
+  border: 2px solid var(--border);
+  transition: border-color 0.25s;
+}
+
+.hero-text h1 {
+  font-size: 2rem;
+  font-weight: 700;
+  letter-spacing: -0.5px;
+  line-height: 1.2;
+  margin-bottom: 6px;
+}
+
+.hero-text .role {
+  font-size: 1rem;
+  color: var(--muted);
+  font-weight: 500;
+}
+
+.hero-text .role span { color: var(--accent); }
+
+/* ── Section ─────────────────────────────────────────────── */
+section { margin-bottom: 52px; }
+
+h2 {
+  font-size: 0.72rem;
+  font-weight: 600;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--muted);
+  margin-bottom: 20px;
+}
+
+p { font-size: 1rem; color: var(--text); margin-bottom: 16px; }
+p:last-child { margin-bottom: 0; }
+
+/* ── Skill tags ──────────────────────────────────────────── */
+.tags { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 4px; }
+
+.tag {
+  background: var(--tag-bg);
+  border: 1px solid var(--border);
+  color: var(--text);
+  font-size: 0.85rem;
+  font-weight: 500;
+  padding: 5px 14px;
+  border-radius: 999px;
+  transition: background 0.25s, border-color 0.25s, color 0.25s;
+}
+
+/* ── Card ────────────────────────────────────────────────── */
+.card {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 28px 32px;
+  margin-bottom: 16px;
+  transition: background 0.25s, border-color 0.25s;
+}
+
+.card-header { display: flex; align-items: center; gap: 14px; margin-bottom: 16px; }
+
+.card-icon {
+  width: 42px; height: 42px;
+  border-radius: 10px;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 1.2rem;
+  flex-shrink: 0;
+  overflow: hidden;
+  transition: background 0.25s, color 0.25s;
+}
+.card-icon img { width: 100%; height: 100%; object-fit: cover; }
+.card-icon.green  { background: var(--icon-g-bg); color: var(--icon-g-fg); }
+.card-icon.purple { background: var(--icon-p-bg); color: var(--icon-p-fg); }
+
+.card-title { font-size: 1.05rem; font-weight: 600; line-height: 1.3; }
+
+.card-subtitle { font-size: 0.85rem; color: var(--muted); margin-top: 2px; }
+
+.card p { font-size: 0.95rem; color: var(--card-text); }
+
+.card .tags { margin-top: 18px; }
+
+/* ── Status badge ────────────────────────────────────────── */
+.badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 0.75rem;
+  font-weight: 600;
+  letter-spacing: 0.04em;
+  padding: 3px 10px;
+  border-radius: 999px;
+  margin-top: 6px;
+  transition: background 0.25s, color 0.25s;
+}
+.badge.live { background: var(--badge-l-bg); color: var(--badge-l-fg); }
+.badge.wip  { background: var(--badge-w-bg); color: var(--badge-w-fg); }
+.badge .dot { width: 6px; height: 6px; border-radius: 50%; background: currentColor; }
+
+/* ── Buttons ─────────────────────────────────────────────── */
+.link-row { display: flex; gap: 12px; flex-wrap: wrap; margin-top: 16px; }
+
+a.btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+  background: transparent;
+  border: 1px solid var(--border);
+  color: var(--text);
+  font-size: 0.85rem;
+  font-weight: 500;
+  padding: 7px 16px;
+  border-radius: 8px;
+  text-decoration: none;
+  transition: border-color 0.15s, color 0.15s;
+}
+a.btn:hover { border-color: var(--accent); color: var(--accent); }
+a.btn svg {
+  width: 14px; height: 14px;
+  fill: none; stroke: currentColor;
+  stroke-width: 2; stroke-linecap: round; stroke-linejoin: round;
+}
+
+/* ── Divider ─────────────────────────────────────────────── */
+hr {
+  border: none;
+  border-top: 1px solid var(--border);
+  margin: 48px 0;
+  transition: border-color 0.25s;
+}
+
+/* ── Footer ──────────────────────────────────────────────── */
+footer {
+  text-align: center;
+  font-size: 0.82rem;
+  color: var(--muted);
+  padding-top: 24px;
+  border-top: 1px solid var(--border);
+  transition: border-color 0.25s;
+}
+footer a { color: var(--accent); text-decoration: none; }
+
+/* ── Responsive ──────────────────────────────────────────── */
+@media (max-width: 540px) {
+  .hero { flex-direction: column; align-items: flex-start; gap: 20px; }
+  .hero-text h1 { font-size: 1.6rem; }
+  .card { padding: 22px 20px; }
+  .theme-toggle { top: 16px; right: 16px; }
+}
