@@ -1,0 +1,5 @@
+# Playwright test artifacts
+.playwright-mcp/
+
+# Local dev server config (optional to track)
+# .claude/
