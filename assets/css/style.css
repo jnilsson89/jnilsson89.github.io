@@ -97,8 +97,8 @@ body {
 
 .hero-avatar {
   flex-shrink: 0;
-  width: 88px;
-  height: 88px;
+  width: 124px;
+  height: 124px;
   border-radius: 50%;
   object-fit: cover;
   border: 2px solid var(--border);
